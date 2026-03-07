@@ -1,0 +1,115 @@
+{
+  "name": "Portfolio",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Portfolio simulation name"
+    },
+    "description": {
+      "type": "string"
+    },
+    "strategy": {
+      "type": "string",
+      "enum": [
+        "conservative",
+        "moderate",
+        "aggressive",
+        "custom"
+      ],
+      "default": "moderate"
+    },
+    "initial_capital": {
+      "type": "number",
+      "description": "Simulated starting capital (paper only)"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "holdings": {
+      "type": "array",
+      "description": "Paper portfolio positions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "allocation_pct": {
+            "type": "number"
+          },
+          "shares": {
+            "type": "number"
+          },
+          "avg_cost": {
+            "type": "number"
+          },
+          "sector": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "simulation_confirmed": {
+      "type": "boolean",
+      "default": false,
+      "description": "User must explicitly confirm before simulation runs"
+    },
+    "simulation_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "confirmed",
+        "running",
+        "complete",
+        "error"
+      ],
+      "default": "draft"
+    },
+    "simulation_results": {
+      "type": "object",
+      "description": "Output of paper simulation \u2014 educational only",
+      "properties": {
+        "total_return_pct": {
+          "type": "number"
+        },
+        "annualized_return_pct": {
+          "type": "number"
+        },
+        "max_drawdown_pct": {
+          "type": "number"
+        },
+        "sharpe_ratio": {
+          "type": "number"
+        },
+        "volatility_pct": {
+          "type": "number"
+        },
+        "benchmark_return_pct": {
+          "type": "number"
+        },
+        "period_days": {
+          "type": "number"
+        },
+        "data_points": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "disclaimer_version": {
+      "type": "string",
+      "description": "Version of disclaimer user acknowledged"
+    }
+  },
+  "required": [
+    "name",
+    "initial_capital"
+  ]
+}

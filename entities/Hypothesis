@@ -1,0 +1,93 @@
+{
+  "name": "Hypothesis",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Hypothesis statement \u2014 framed as research question, not prediction"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Full reasoning chain explaining the analytical basis"
+    },
+    "supporting_news_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of NewsItems used as evidence"
+    },
+    "supporting_news_titles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Titles of cited news items for display"
+    },
+    "entities_involved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Companies, sectors, or tickers this hypothesis pertains to"
+    },
+    "confidence_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Signal confidence \u2014 not a probability of financial outcome"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "0.0 to 1.0 confidence score"
+    },
+    "hypothesis_type": {
+      "type": "string",
+      "enum": [
+        "momentum",
+        "reversal",
+        "macro_impact",
+        "sector_rotation",
+        "event_driven",
+        "correlation"
+      ],
+      "description": "Analytical hypothesis category"
+    },
+    "time_horizon": {
+      "type": "string",
+      "enum": [
+        "short_term",
+        "medium_term",
+        "long_term"
+      ],
+      "description": "Educational time horizon \u2014 not a prediction"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "archived",
+        "invalidated"
+      ],
+      "default": "active"
+    },
+    "disclaimer_acknowledged": {
+      "type": "boolean",
+      "default": false
+    },
+    "audit_log": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Append-only log of generation steps for transparency"
+    }
+  },
+  "required": [
+    "title",
+    "reasoning"
+  ]
+}
