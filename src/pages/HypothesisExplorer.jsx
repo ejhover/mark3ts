@@ -1,12 +1,11 @@
 // Hypothesis Explorer — browse, generate, and inspect research hypotheses.
 // All language is framed as analytical research, not financial advice.
 import { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
-import { FlaskConical, Plus, Filter, AlertTriangle, Search } from "lucide-react";
+import { appClient } from "@/api/appClient";
+import { FlaskConical, Plus, AlertTriangle, Search } from "lucide-react";
 import HypothesisCard from "@/components/hypothesis/HypothesisCard";
 import HypothesisDetailPanel from "@/components/hypothesis/HypothesisDetailPanel";
 import GenerateHypothesisModal from "@/components/hypothesis/GenerateHypothesisModal";
-import ConfidenceMeter from "@/components/shared/ConfidenceMeter";
 
 const TYPE_FILTERS = [
   { value: "all", label: "All Types" },
@@ -39,8 +38,8 @@ export default function HypothesisExplorer() {
   const fetchData = async () => {
     setLoading(true);
     const [hyps, news] = await Promise.all([
-      base44.entities.Hypothesis.list("-created_date", 100),
-      base44.entities.NewsItem.filter({ analysis_status: "complete" }, "-created_date", 100),
+      appClient.entities.Hypothesis.list("-created_date", 100),
+      appClient.entities.NewsItem.filter({ analysis_status: "complete" }, "-created_date", 100),
     ]);
     setHypotheses(hyps);
     setNewsItems(news);
@@ -186,7 +185,7 @@ export default function HypothesisExplorer() {
           <p className="text-xs text-zinc-600 mt-1">
             {newsItems.length === 0
               ? "First add and analyze news items, then generate hypotheses from the evidence."
-              : "Generate a hypothesis by selecting analyzed news items as evidence."}
+              : "Generate a hypothesis from grouped stock/topic signals or by manually selecting analyzed articles."}
           </p>
         </div>
       ) : (

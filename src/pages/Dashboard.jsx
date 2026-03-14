@@ -1,7 +1,7 @@
 // Main dashboard — high-level overview of platform activity across all modules.
 // Entry point after disclaimer acknowledgment.
 import { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
+import { appClient } from "@/api/appClient";
 import { Activity, FlaskConical, BarChart3, Newspaper, ArrowRight, TrendingUp, TrendingDown, Shield } from "lucide-react";
 import { createPageUrl } from "@/utils";
 import { Link } from "react-router-dom";
@@ -34,11 +34,21 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
-      const [news, hyps, ports, logs] = await Promise.all([
-        base44.entities.NewsItem.list("-created_date", 20),
-        base44.entities.Hypothesis.list("-created_date", 10),
-        base44.entities.Portfolio.list("-created_date", 10),
-        base44.entities.AuditLog.list("-created_date", 8),
+
+      // Fetch news from backend API (has all scraped items), fall back to localStorage
+      let news = [];
+      try {
+        const res = await fetch("/api/news");
+        if (res.ok) news = await res.json();
+        else throw new Error("not ok");
+      } catch {
+        news = appClient.entities.NewsItem.list("-created_date", 100);
+      }
+
+      const [hyps, ports, logs] = await Promise.all([
+        appClient.entities.Hypothesis.list("-created_date", 10),
+        appClient.entities.Portfolio.list("-created_date", 10),
+        appClient.entities.AuditLog.list("-created_date", 8),
       ]);
       setNewsItems(news);
       setHypotheses(hyps);
@@ -142,9 +152,9 @@ export default function Dashboard() {
                   <div className="flex items-start justify-between gap-2 p-2 rounded hover:bg-zinc-800/60 transition-colors">
                     <div className="min-w-0">
                       <p className="text-xs text-zinc-300 leading-snug line-clamp-1">{item.title}</p>
-                      <p className="text-xs text-zinc-600 mt-0.5">{item.source} · {formatDistanceToNow(new Date(item.created_date), { addSuffix: true })}</p>
+                      <p className="text-xs text-zinc-600 mt-0.5">{item.source}{(item.published_at || item.created_date) ? ` · ${formatDistanceToNow(new Date(item.published_at || item.created_date), { addSuffix: true })}` : ""}</p>
                     </div>
-                    {item.sentiment && <SentimentBadge sentiment={item.sentiment} />}
+                    {item.sentiment && <SentimentBadge sentiment={item.sentiment} score={item.sentiment_score} />}
                   </div>
                 </Link>
               ))}

@@ -1,7 +1,7 @@
 // First-run compliance modal. Must be acknowledged before any platform features are accessible.
 import { useState } from "react";
 import { Shield, AlertTriangle, BookOpen, BarChart3, FlaskConical } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { appClient } from "@/api/appClient";
 
 export default function OnboardingDisclaimerModal({ onAcknowledge }) {
   const [checked, setChecked] = useState(false);
@@ -11,7 +11,7 @@ export default function OnboardingDisclaimerModal({ onAcknowledge }) {
     if (!checked) return;
     setLoading(true);
     // Log acknowledgment to audit trail
-    await base44.entities.AuditLog.create({
+    await appClient.entities.AuditLog.create({
       event_type: "disclaimer_acknowledged",
       description: "User acknowledged platform disclaimer and compliance terms",
       user_confirmed: true,

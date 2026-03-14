@@ -65,6 +65,41 @@
       ],
       "description": "Educational time horizon \u2014 not a prediction"
     },
+    "source_group_key": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Optional grouped topic or ticker key used for generation"
+    },
+    "source_group_label": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Human-readable grouped evidence label"
+    },
+    "source_group_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Whether the grouped evidence was a topic cluster or ticker cluster"
+    },
+    "source_group_signal": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Aggregate sentiment score for the selected group"
+    },
+    "source_group_article_count": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "How many analyzed articles were included in the grouped evidence"
+    },
     "status": {
       "type": "string",
       "enum": [

@@ -1,4 +1,4 @@
-// App params for standalone mode (no Base44). Optional URL params and localStorage for overrides.
+// App params for standalone mode. Optional URL params and localStorage for overrides.
 const isNode = typeof window === 'undefined';
 const windowObj = isNode ? { localStorage: new Map() } : window;
 const storage = windowObj.localStorage;
@@ -27,12 +27,13 @@ const getAppParamValue = (paramName, { defaultValue = undefined, removeFromUrl =
 };
 
 const getAppParams = () => {
+  const viteEnv = globalThis?.import_meta_env || {};
   if (getAppParamValue('clear_access_token') === 'true') {
     storage.removeItem('moneybuddy_access_token');
     storage.removeItem('token');
   }
   return {
-    appId: getAppParamValue('app_id', { defaultValue: import.meta.env.VITE_APP_ID ?? 'local' }),
+    appId: getAppParamValue('app_id', { defaultValue: viteEnv.VITE_APP_ID ?? 'local' }),
     token: getAppParamValue('access_token', { removeFromUrl: true }),
     fromUrl: getAppParamValue('from_url', { defaultValue: typeof window !== 'undefined' ? window.location.href : '' }),
     functionsVersion: getAppParamValue('functions_version', { defaultValue: null }),

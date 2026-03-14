@@ -42,10 +42,35 @@
           "allocation_pct": {
             "type": "number"
           },
+          "allocation_amount": {
+            "type": "number"
+          },
           "shares": {
             "type": "number"
           },
           "avg_cost": {
+            "type": "number"
+          },
+          "current_price": {
+            "type": "number"
+          },
+          "current_value": {
+            "type": "number"
+          },
+          "position_type": {
+            "type": "string",
+            "enum": [
+              "long",
+              "short"
+            ]
+          },
+          "signal_score": {
+            "type": "number"
+          },
+          "signal_strength": {
+            "type": "number"
+          },
+          "article_count": {
             "type": "number"
           },
           "sector": {
@@ -70,6 +95,23 @@
       ],
       "default": "draft"
     },
+    "source_mode": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "signal_driven"
+      ],
+      "default": "signal_driven"
+    },
+    "signal_threshold": {
+      "type": "number"
+    },
+    "source_news_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "simulation_results": {
       "type": "object",
       "description": "Output of paper simulation \u2014 educational only",
@@ -91,6 +133,21 @@
         },
         "benchmark_return_pct": {
           "type": "number"
+        },
+        "current_value": {
+          "type": "number"
+        },
+        "live_value": {
+          "type": "number"
+        },
+        "live_value_as_of": {
+          "type": "string"
+        },
+        "benchmark_symbol": {
+          "type": "string"
+        },
+        "data_source": {
+          "type": "string"
         },
         "period_days": {
           "type": "number"

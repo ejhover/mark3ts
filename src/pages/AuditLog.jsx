@@ -1,7 +1,7 @@
 // Audit Log — append-only transparency log for all AI-generated outputs and user confirmations.
 // Required for regulatory framing: all AI reasoning sources and actions are logged here.
 import { useState, useEffect } from "react";
-import { base44 } from "@/api/base44Client";
+import { appClient } from "@/api/appClient";
 import { Shield, Clock, Filter, Search, ChevronDown, ChevronRight } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
 
@@ -122,7 +122,7 @@ export default function AuditLogPage() {
   useEffect(() => {
     const fetchLogs = async () => {
       setLoading(true);
-      const data = await base44.entities.AuditLog.list("-created_date", 200);
+      const data = await appClient.entities.AuditLog.list("-created_date", 200);
       setLogs(data);
       setLoading(false);
     };

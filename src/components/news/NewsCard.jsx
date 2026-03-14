@@ -1,11 +1,12 @@
 // Individual news card for the intelligence feed.
 // Each card shows source, entities, sentiment signal, and links to original article.
-import { ExternalLink, Clock } from "lucide-react";
+import { ExternalLink, Clock, Zap, Loader2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import SentimentBadge from "@/components/shared/SentimentBadge";
 import EntityTag from "@/components/shared/EntityTag";
+import { formatSignalPercent, getSignalStrength } from "@/lib/newsSignals";
 
-export default function NewsCard({ item, onClick }) {
+export default function NewsCard({ item, onClick, onAnalyze, isAnalyzing }) {
   const timeAgo = item.published_at
     ? formatDistanceToNow(new Date(item.published_at), { addSuffix: true })
     : formatDistanceToNow(new Date(item.created_date), { addSuffix: true });
@@ -30,8 +31,19 @@ export default function NewsCard({ item, onClick }) {
         {item.analysis_status === "complete" && item.sentiment && (
           <SentimentBadge sentiment={item.sentiment} score={item.sentiment_score} />
         )}
-        {item.analysis_status === "pending" && (
-          <span className="text-xs text-zinc-600 italic">Analyzing...</span>
+        {item.analysis_status === "analyzing" && (
+          <span className="flex items-center gap-1 text-xs text-blue-400">
+            <Loader2 className="w-3 h-3 animate-spin" /> Analyzing...
+          </span>
+        )}
+        {item.analysis_status !== "complete" && item.analysis_status !== "analyzing" && onAnalyze && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onAnalyze(item); }}
+            disabled={isAnalyzing}
+            className="flex items-center gap-1 px-2 py-0.5 text-xs text-blue-400 border border-blue-500/30 rounded hover:bg-blue-500/10 transition-colors disabled:opacity-40"
+          >
+            <Zap className="w-3 h-3" /> Analyze
+          </button>
         )}
       </div>
 
@@ -43,6 +55,19 @@ export default function NewsCard({ item, onClick }) {
       {/* Summary */}
       {item.summary && (
         <p className="text-xs text-zinc-500 leading-relaxed mb-3 line-clamp-2">{item.summary}</p>
+      )}
+
+      {item.analysis_status === "complete" && getSignalStrength(item.sentiment_score) > 0 && (
+        <div className="mb-3 flex items-center gap-2">
+          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-zinc-500">Signal strength</span>
+          <div className="flex-1 h-1.5 rounded-full bg-zinc-800 overflow-hidden">
+            <div
+              className={`h-full rounded-full ${Number(item.sentiment_score) >= 0 ? "bg-emerald-500" : "bg-red-500"}`}
+              style={{ width: formatSignalPercent(item.sentiment_score) }}
+            />
+          </div>
+          <span className="text-xs font-mono text-zinc-400">{formatSignalPercent(item.sentiment_score)}</span>
+        </div>
       )}
 
       {/* Entity tags */}

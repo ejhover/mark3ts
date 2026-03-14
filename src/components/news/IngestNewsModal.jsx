@@ -2,7 +2,7 @@
 // Accepts a URL or manual text input. Triggers analysis pipeline on submit.
 import { useState } from "react";
 import { X, Link, FileText, Loader2 } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { appClient } from "@/api/appClient";
 
 export default function IngestNewsModal({ onClose, onIngested }) {
   const [mode, setMode] = useState("url"); // "url" or "manual"
@@ -14,7 +14,8 @@ export default function IngestNewsModal({ onClose, onIngested }) {
   const [error, setError] = useState("");
 
   const getApiBaseUrl = () => {
-    const fromEnv = import.meta.env.VITE_API_URL;
+    const viteEnv = globalThis?.import_meta_env || {};
+    const fromEnv = viteEnv.VITE_API_URL;
     if (typeof fromEnv === "string" && fromEnv.trim().length > 0) {
       return fromEnv.replace(/\/$/, "");
     }
@@ -37,7 +38,7 @@ export default function IngestNewsModal({ onClose, onIngested }) {
       return await res.json();
     } catch (err) {
       console.error("News API create failed, falling back to local storage", err);
-      return base44.entities.NewsItem.create(newsData);
+      return appClient.entities.NewsItem.create(newsData);
     }
   };
 
@@ -60,7 +61,7 @@ export default function IngestNewsModal({ onClose, onIngested }) {
     const created = await createNews(newsData);
 
     // Log ingestion to audit trail
-    await base44.entities.AuditLog.create({
+    await appClient.entities.AuditLog.create({
       event_type: "news_ingested",
       entity_type: "NewsItem",
       entity_id: created.id,

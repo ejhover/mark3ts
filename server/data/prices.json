@@ -1,0 +1,201 @@
+{
+  "quotes": {
+    "FTZ": {
+      "fetched_at": 1773449977949,
+      "data": {
+        "symbol": "FTZ",
+        "current": 0,
+        "change": 0,
+        "change_percent": null,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "previous_close": 0,
+        "timestamp": "1970-01-01T00:00:00.000Z"
+      }
+    },
+    "XOM": {
+      "fetched_at": 1773449978456,
+      "data": {
+        "symbol": "XOM",
+        "current": 156.12,
+        "change": 2.5900000000000034,
+        "change_percent": 1.6869667166026205,
+        "high": 156.89,
+        "low": 152.975,
+        "open": 154.3,
+        "previous_close": 153.53,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "BABA": {
+      "fetched_at": 1773449980224,
+      "data": {
+        "symbol": "BABA",
+        "current": 135.21,
+        "change": 1.0100000000000193,
+        "change_percent": 0.7526080476900293,
+        "high": 137.2,
+        "low": 134.7,
+        "open": 136.07,
+        "previous_close": 134.2,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "JPM": {
+      "fetched_at": 1773450032149,
+      "data": {
+        "symbol": "JPM",
+        "current": 283.44,
+        "change": 0.5500000000000114,
+        "change_percent": 0.19442186008696363,
+        "high": 287.19,
+        "low": 282.95,
+        "open": 284.665,
+        "previous_close": 282.89,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "BIDU": {
+      "fetched_at": 1773450032278,
+      "data": {
+        "symbol": "BIDU",
+        "current": 124.07,
+        "change": 0.9099999999999966,
+        "change_percent": 0.7388762585254925,
+        "high": 128.1,
+        "low": 124.03,
+        "open": 125.126,
+        "previous_close": 123.16,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "VRTX": {
+      "fetched_at": 1773450092069,
+      "data": {
+        "symbol": "VRTX",
+        "current": 469.34,
+        "change": -8.79000000000002,
+        "change_percent": -1.8384121473239539,
+        "high": 486.659811,
+        "low": 469.08,
+        "open": 481.79,
+        "previous_close": 478.13,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "EWP": {
+      "fetched_at": 1773450053250,
+      "data": {
+        "symbol": "EWP",
+        "current": 52.45,
+        "change": -0.529999999999994,
+        "change_percent": -1.0003775009437412,
+        "high": 53.54,
+        "low": 52.43,
+        "open": 53.15,
+        "previous_close": 52.98,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "CGAU": {
+      "fetched_at": 1773450092162,
+      "data": {
+        "symbol": "CGAU",
+        "current": 17.64,
+        "change": -0.8999999999999986,
+        "change_percent": -4.8543689320388275,
+        "high": 18.44,
+        "low": 17.49,
+        "open": 18.22,
+        "previous_close": 18.54,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "CELG": {
+      "fetched_at": 1773450056949,
+      "data": {
+        "symbol": "CELG",
+        "current": 0,
+        "change": 0,
+        "change_percent": null,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "previous_close": 0,
+        "timestamp": "1970-01-01T00:00:00.000Z"
+      }
+    },
+    "SGNE": {
+      "fetched_at": 1773450059447,
+      "data": {
+        "symbol": "SGNE",
+        "current": 0,
+        "change": 0,
+        "change_percent": null,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "previous_close": 0,
+        "timestamp": "1970-01-01T00:00:00.000Z"
+      }
+    },
+    "ABBV": {
+      "fetched_at": 1773450061665,
+      "data": {
+        "symbol": "ABBV",
+        "current": 219.68,
+        "change": -5.689999999999998,
+        "change_percent": -2.5247370989927664,
+        "high": 228.62,
+        "low": 219.44,
+        "open": 226.89,
+        "previous_close": 225.37,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "MIM": {
+      "fetched_at": 1773450064589,
+      "data": {
+        "symbol": "MIM",
+        "current": 0,
+        "change": 0,
+        "change_percent": null,
+        "high": 0,
+        "low": 0,
+        "open": 0,
+        "previous_close": 0,
+        "timestamp": "1970-01-01T00:00:00.000Z"
+      }
+    },
+    "MRK": {
+      "fetched_at": 1773450066776,
+      "data": {
+        "symbol": "MRK",
+        "current": 115.61,
+        "change": -0.29999999999999716,
+        "change_percent": -0.2588214994392176,
+        "high": 117.8947,
+        "low": 115.53,
+        "open": 116.92,
+        "previous_close": 115.91,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    },
+    "HIMX": {
+      "fetched_at": 1773450310581,
+      "data": {
+        "symbol": "HIMX",
+        "current": 9.84,
+        "change": -0.2900000000000009,
+        "change_percent": -2.862783810463977,
+        "high": 11.52,
+        "low": 9.76,
+        "open": 10.45,
+        "previous_close": 10.13,
+        "timestamp": "2026-03-13T20:00:00.000Z"
+      }
+    }
+  },
+  "history": {}
+}

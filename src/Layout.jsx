@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Activity, Newspaper, FlaskConical, BarChart3, Shield, Settings2, ChevronRight } from "lucide-react";
-import DisclaimerBanner from "@/components/shared/DisclaimerBanner";
 import OnboardingDisclaimerModal from "@/components/shared/OnboardingDisclaimerModal";
 
 const NAV_ITEMS = [
@@ -61,7 +60,7 @@ export default function Layout({ children, currentPageName }) {
               <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                 <Activity className="w-3 h-3 text-white" />
               </div>
-              <span className="text-sm font-semibold text-zinc-200 tracking-tight">FinSignal</span>
+              <span className="text-sm font-semibold text-zinc-200 tracking-tight">MoneyBuddy</span>
             </div>
             <span className="text-xs text-zinc-600 border border-zinc-800 px-1.5 py-0.5 rounded">Intelligence Platform</span>
           </div>
@@ -86,12 +85,6 @@ export default function Layout({ children, currentPageName }) {
               );
             })}
           </nav>
-
-          {/* Compliance indicator */}
-          <div className="hidden md:flex items-center gap-1.5 text-xs text-zinc-600">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
-            Educational analytics only
-          </div>
         </div>
       </header>
 
@@ -122,9 +115,6 @@ export default function Layout({ children, currentPageName }) {
           {children}
         </div>
       </main>
-
-      {/* Persistent disclaimer footer */}
-      <DisclaimerBanner />
     </div>
   );
 }

@@ -79,6 +79,67 @@
       },
       "description": "Macroeconomic signals detected"
     },
+    "signal_facts": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Structured ticker/topic/event extraction used for long-term signal memory",
+      "properties": {
+        "extraction_version": {
+          "type": "number"
+        },
+        "extracted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sentiment": {
+          "type": "string"
+        },
+        "sentiment_score": {
+          "type": "number"
+        },
+        "source_credibility_score": {
+          "type": "number"
+        },
+        "uncertainty_score": {
+          "type": "number"
+        },
+        "primary_ticker": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tickers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ticker": { "type": "string" },
+              "name": { "type": "string" },
+              "entity_type": { "type": "string" }
+            }
+          }
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "label": { "type": "string" }
+            }
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "analysis_status": {
       "type": "string",
       "enum": [

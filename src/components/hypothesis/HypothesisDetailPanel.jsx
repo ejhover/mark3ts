@@ -1,8 +1,8 @@
 // Full hypothesis detail panel — reasoning chain, evidence citations, explainability.
 // All language is framed as research/analytical, never as financial advice.
-import { X, AlertTriangle, BookOpen, Archive, Trash2 } from "lucide-react";
+import { X, AlertTriangle, BookOpen, Archive } from "lucide-react";
 import ConfidenceMeter from "@/components/shared/ConfidenceMeter";
-import { base44 } from "@/api/base44Client";
+import { appClient } from "@/api/appClient";
 import { useState } from "react";
 
 const typeLabels = {
@@ -16,8 +16,8 @@ export default function HypothesisDetailPanel({ hypothesis, onClose, onUpdated }
 
   const handleArchive = async () => {
     setArchiving(true);
-    const updated = await base44.entities.Hypothesis.update(hypothesis.id, { status: "archived" });
-    await base44.entities.AuditLog.create({
+    const updated = await appClient.entities.Hypothesis.update(hypothesis.id, { status: "archived" });
+    await appClient.entities.AuditLog.create({
       event_type: "user_action",
       entity_type: "Hypothesis",
       entity_id: hypothesis.id,
@@ -64,6 +64,11 @@ export default function HypothesisDetailPanel({ hypothesis, onClose, onUpdated }
                 Horizon: <span className="text-zinc-400">{horizonLabels[hypothesis.time_horizon]}</span>
               </span>
             )}
+            {hypothesis.source_group_label && (
+              <span className="text-xs text-zinc-500">
+                Focus: <span className="text-zinc-300">{hypothesis.source_group_label}</span>
+              </span>
+            )}
             <span className={`text-xs px-2 py-0.5 rounded border ${
               hypothesis.status === "active" ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
               : hypothesis.status === "archived" ? "text-zinc-500 bg-zinc-800 border-zinc-700"
@@ -107,6 +112,15 @@ export default function HypothesisDetailPanel({ hypothesis, onClose, onUpdated }
           )}
 
           {/* Evidence sources */}
+          {hypothesis.source_group_article_count && (
+            <div>
+              <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">Grouped Evidence</h4>
+              <div className="bg-zinc-800/40 border border-zinc-700/40 rounded-md px-3 py-2 text-xs text-zinc-400">
+                {hypothesis.source_group_label || "Manual selection"} · {hypothesis.source_group_article_count} related article{hypothesis.source_group_article_count !== 1 ? "s" : ""}
+              </div>
+            </div>
+          )}
+
           {hypothesis.supporting_news_titles && hypothesis.supporting_news_titles.length > 0 && (
             <div>
               <h4 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">Evidence Sources Cited</h4>

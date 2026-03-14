@@ -2,7 +2,7 @@
 // Used in sidebar of news feed for quick context.
 import { useState } from "react";
 import { Plus, X, Eye, Trash2 } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { appClient } from "@/api/appClient";
 
 export default function WatchlistPanel({ items, newsItems, onRefresh }) {
   const [showAdd, setShowAdd] = useState(false);
@@ -14,7 +14,7 @@ export default function WatchlistPanel({ items, newsItems, onRefresh }) {
   const handleAdd = async () => {
     if (!ticker.trim()) return;
     setLoading(true);
-    await base44.entities.WatchlistItem.create({
+    await appClient.entities.WatchlistItem.create({
       ticker: ticker.toUpperCase().trim(),
       company_name: company.trim(),
       sector: sector.trim(),
@@ -26,7 +26,7 @@ export default function WatchlistPanel({ items, newsItems, onRefresh }) {
   };
 
   const handleDelete = async (id) => {
-    await base44.entities.WatchlistItem.delete(id);
+    await appClient.entities.WatchlistItem.delete(id);
     onRefresh();
   };
 

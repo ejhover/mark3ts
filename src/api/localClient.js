@@ -1,6 +1,5 @@
-/**byyyyyyyyyyyyyyy
- * Local standalone API client — replaces Base44 for running the app with npm run dev.
- * Persists entities in localStorage. LLM calls return mock data (no external API).
+/**
+ * Local standalone API client — stores entities in localStorage, proxies LLM calls to the Express backend.
  */
 
 const STORAGE_PREFIX = 'moneybuddy_entity_';
@@ -196,7 +195,7 @@ const auth = {
   },
 };
 
-export const base44 = {
+export const appClient = {
   entities,
   auth,
   integrations: {
@@ -205,3 +204,6 @@ export const base44 = {
     },
   },
 };
+
+// Backward-compat alias
+export const base44 = appClient;

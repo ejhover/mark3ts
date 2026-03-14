@@ -1,0 +1,107 @@
+[
+  {
+    "id": "43918c8f-70db-48e3-b772-e5721bd2bef1",
+    "url": "https://finance.yahoo.com/news/rssindex",
+    "name": "Yahoo Finance — Top Stories",
+    "category": "General",
+    "default": true
+  },
+  {
+    "id": "eb70b354-76af-4ea3-b643-fc4a09ed6d82",
+    "url": "https://finance.yahoo.com/rss/topfinstories",
+    "name": "Yahoo Finance — Stock Market",
+    "category": "Markets",
+    "default": true
+  },
+  {
+    "id": "7e578ab4-8140-4b56-820f-5cdb97ed6375",
+    "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114",
+    "name": "CNBC — Top News",
+    "category": "General",
+    "default": true
+  },
+  {
+    "id": "f54af1c2-9b88-462e-af62-7fdecaf1f0cc",
+    "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258",
+    "name": "CNBC — Market Insider",
+    "category": "Markets",
+    "default": true
+  },
+  {
+    "id": "9590000a-2080-4501-9db7-97559bf4a151",
+    "url": "https://feeds.marketwatch.com/marketwatch/topstories/",
+    "name": "MarketWatch — Top Stories",
+    "category": "General",
+    "default": true
+  },
+  {
+    "id": "18844d9f-34df-4f22-91e1-848e541b0c49",
+    "url": "https://feeds.marketwatch.com/marketwatch/marketpulse/",
+    "name": "MarketWatch — Market Pulse",
+    "category": "Markets",
+    "default": true
+  },
+  {
+    "id": "3f79a258-3dba-4616-9157-5f22bda14c2b",
+    "url": "https://news.google.com/rss/search?q=site:reuters.com+business&hl=en-US&gl=US&ceid=US:en",
+    "name": "Reuters — Business",
+    "category": "General",
+    "default": true
+  },
+  {
+    "id": "0f8adf5f-9f49-4e6e-b2fa-c08f4b712554",
+    "url": "https://seekingalpha.com/market_currents.xml",
+    "name": "Seeking Alpha — Market News",
+    "category": "Analysis",
+    "default": true
+  },
+  {
+    "id": "b2947e1f-171a-4ef5-918f-73e6ffe2e4f7",
+    "url": "https://www.benzinga.com/feed",
+    "name": "Benzinga — News",
+    "category": "General",
+    "default": true
+  },
+  {
+    "id": "6bd58533-2cb1-4010-b203-4faf524cd262",
+    "url": "https://www.investing.com/rss/news_301.rss",
+    "name": "Investing.com — Stock Market",
+    "category": "Markets",
+    "default": true
+  },
+  {
+    "id": "0d366d6e-dcf9-43a0-9038-254ec2ab8398",
+    "url": "https://www.fool.com/feeds/index.aspx?id=foolwatch&format=rss2",
+    "name": "The Motley Fool — Stock Market",
+    "category": "Analysis",
+    "default": true
+  },
+  {
+    "id": "0a847bbc-e712-4572-a3c7-0d51e1d0a615",
+    "url": "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en",
+    "name": "Google News — Business",
+    "category": "General",
+    "default": true
+  },
+  {
+    "id": "0ce83728-cb66-4b76-acaa-bf31f395945c",
+    "url": "https://news.google.com/rss/search?q=stock+market&hl=en-US&gl=US&ceid=US:en",
+    "name": "Google News — Markets",
+    "category": "Markets",
+    "default": true
+  },
+  {
+    "id": "7f68944b-331c-4133-be93-a96e3a739448",
+    "url": "https://techcrunch.com/category/startups/feed/",
+    "name": "TechCrunch — Startups",
+    "category": "Tech",
+    "default": true
+  },
+  {
+    "id": "cf9c64b1-664e-4d99-9585-e2dbc6efb9e8",
+    "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+    "name": "Federal Reserve — Press Releases",
+    "category": "Macro",
+    "default": true
+  }
+]

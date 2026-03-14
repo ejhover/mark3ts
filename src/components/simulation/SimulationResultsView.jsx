@@ -1,12 +1,11 @@
 // Displays paper simulation results with charts and key metrics.
 // All results labeled as educational simulation — not financial projections.
-import { AlertTriangle, TrendingUp, TrendingDown, Activity } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   ReferenceLine, Legend
 } from "recharts";
 
-const MetricCard = ({ label, value, sub, positive }) => (
+const MetricCard = ({ label, value, sub = null, positive = null }) => (
   <div className="bg-zinc-800/60 border border-zinc-700/50 rounded-md p-3">
     <p className="text-xs text-zinc-500 mb-1">{label}</p>
     <p className={`text-lg font-semibold font-mono ${
@@ -24,26 +23,23 @@ export default function SimulationResultsView({ results, portfolioName }) {
   const {
     total_return_pct, annualized_return_pct, max_drawdown_pct,
     sharpe_ratio, volatility_pct, benchmark_return_pct,
-    period_days, data_points = []
+    period_days, data_points = [], live_value, live_value_as_of, data_source
   } = results;
 
   const isPositive = total_return_pct >= 0;
 
   return (
     <div className="space-y-5">
-      {/* Simulation disclaimer */}
-      <div className="flex items-start gap-2 bg-zinc-800/50 border border-zinc-700/50 rounded-md p-3">
-        <AlertTriangle className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
-        <p className="text-xs text-zinc-500 leading-relaxed">
-          <span className="text-amber-400">Paper simulation results.</span> The following data represents a historical simulation using mock/educational data only. 
-          Past simulation performance does not indicate future results. These figures are not financial projections.
-        </p>
-      </div>
 
       {/* Summary metrics */}
       <div>
         <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-3">Simulation Metrics — {portfolioName}</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          <MetricCard
+            label="Live Portfolio Value"
+            value={`$${Math.round(live_value || data_points[data_points.length - 1]?.value || 0).toLocaleString()}`}
+            sub={live_value_as_of ? `Updated ${new Date(live_value_as_of).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : "Latest tracked value"}
+          />
           <MetricCard
             label="Total Return (Simulated)"
             value={`${isPositive ? "+" : ""}${total_return_pct?.toFixed(2)}%`}
@@ -121,7 +117,7 @@ export default function SimulationResultsView({ results, portfolioName }) {
               </LineChart>
             </ResponsiveContainer>
             <p className="text-xs text-zinc-600 text-center mt-2">
-              Data source: Simulated historical data for educational purposes only — not real market data
+              Data source: {data_source === "finnhub" ? "Finnhub market data with paper-trading logic" : "Simulated historical data"} for educational purposes only
             </p>
           </div>
         </div>

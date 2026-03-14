@@ -1,8 +1,9 @@
 // Modal for generating a new research hypothesis from selected news items.
 // Uses AI to produce a reasoned hypothesis with citations. Logs to audit trail.
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { X, FlaskConical, Loader2, AlertTriangle } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { appClient } from "@/api/appClient";
+import { buildHypothesisGroupOptions, describeSignalDirection, formatSignalPercent } from "@/lib/newsSignals";
 
 const HYPOTHESIS_TYPES = [
   { value: "momentum", label: "Momentum" },
@@ -20,11 +21,16 @@ const TIME_HORIZONS = [
 ];
 
 export default function GenerateHypothesisModal({ newsItems, onClose, onGenerated }) {
+  const [selectionMode, setSelectionMode] = useState("grouped");
   const [selectedIds, setSelectedIds] = useState([]);
+  const [selectedGroupKey, setSelectedGroupKey] = useState("");
   const [hypothesisType, setHypothesisType] = useState("event_driven");
   const [timeHorizon, setTimeHorizon] = useState("medium_term");
   const [focus, setFocus] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const groupOptions = useMemo(() => buildHypothesisGroupOptions(newsItems), [newsItems]);
+  const selectedGroup = groupOptions.find((group) => group.key === selectedGroupKey) || null;
 
   const toggleNews = (id) => setSelectedIds(prev =>
     prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
@@ -32,12 +38,24 @@ export default function GenerateHypothesisModal({ newsItems, onClose, onGenerate
 
   const selectedItems = newsItems.filter(n => selectedIds.includes(n.id));
 
+  const handleSelectGroup = (group) => {
+    setSelectedGroupKey(group.key);
+    setSelectedIds(group.article_ids);
+    if (!focus) {
+      setFocus(group.label);
+    }
+  };
+
   const handleGenerate = async () => {
     if (selectedIds.length === 0) return;
     setLoading(true);
 
+    const groupSummary = selectedGroup
+      ? `Evidence group: ${selectedGroup.label} (${selectedGroup.group_kind}, ${selectedGroup.article_count} articles, ${describeSignalDirection(selectedGroup.average_score)} aggregate signal, strength ${formatSignalPercent(selectedGroup.average_score)})`
+      : "Evidence group: manually selected articles";
+
     const newsContext = selectedItems.map((n, i) =>
-      `[${i + 1}] "${n.title}" (Source: ${n.source})\nSummary: ${n.summary || n.title}\nSentiment: ${n.sentiment || "not analyzed"}`
+      `[${i + 1}] "${n.title}" (Source: ${n.source})\nSummary: ${n.summary || n.title}\nSentiment: ${n.sentiment || "not analyzed"} (${n.sentiment_score ?? "N/A"})\nTopics: ${[...(n.sector_tags || []), ...(n.macro_signals || [])].filter(Boolean).join(", ") || "None"}`
     ).join("\n\n");
 
     const prompt = `You are a financial research analyst generating educational research hypotheses for analytical purposes only. 
@@ -46,13 +64,15 @@ This is NOT financial advice. Generate a structured research hypothesis based on
 News Items:
 ${newsContext}
 
+${groupSummary}
+
 Hypothesis Type: ${hypothesisType}
 Time Horizon: ${timeHorizon}
 ${focus ? `Focus Area: ${focus}` : ""}
 
 Generate a JSON response with:
 - title: A clear research hypothesis statement (framed as "may", "could suggest", "analytical signal indicates" — never as a prediction or recommendation)
-- reasoning: A detailed reasoning chain explaining the analytical basis, citing each news item by number [1], [2], etc. (3-5 paragraphs)
+- reasoning: A detailed reasoning chain explaining the analytical basis, citing each news item by number [1], [2], etc. Explain the overall pattern across the grouped evidence before discussing individual citations. (3-5 paragraphs)
 - entities_involved: Array of company names or tickers mentioned
 - confidence_level: "low", "medium", or "high" based on signal strength and evidence quality
 - confidence_score: Number 0.0-1.0
@@ -60,7 +80,7 @@ Generate a JSON response with:
 
 Important: Frame all language as educational research. Never claim certainty about future market movements.`;
 
-    const result = await base44.integrations.Core.InvokeLLM({
+    const result = await appClient.integrations.Core.InvokeLLM({
       prompt,
       response_json_schema: {
         type: "object",
@@ -75,7 +95,7 @@ Important: Frame all language as educational research. Never claim certainty abo
       }
     });
 
-    const hypothesis = await base44.entities.Hypothesis.create({
+    const hypothesis = await appClient.entities.Hypothesis.create({
       title: result.title,
       reasoning: result.reasoning,
       entities_involved: result.entities_involved || [],
@@ -85,13 +105,18 @@ Important: Frame all language as educational research. Never claim certainty abo
       time_horizon: timeHorizon,
       supporting_news_ids: selectedIds,
       supporting_news_titles: selectedItems.map(n => n.title),
+      source_group_key: selectedGroup?.key || null,
+      source_group_label: selectedGroup?.label || null,
+      source_group_type: selectedGroup?.group_kind || null,
+      source_group_signal: selectedGroup?.average_score ?? null,
+      source_group_article_count: selectedGroup?.article_count ?? selectedItems.length,
       audit_log: result.audit_log || [],
       status: "active",
       disclaimer_acknowledged: true,
     });
 
     // Log to audit trail
-    await base44.entities.AuditLog.create({
+    await appClient.entities.AuditLog.create({
       event_type: "hypothesis_generated",
       entity_type: "Hypothesis",
       entity_id: hypothesis.id,
@@ -151,6 +176,65 @@ Important: Frame all language as educational research. Never claim certainty abo
         </div>
 
         <div className="mb-5">
+          <label className="text-xs text-zinc-500 block mb-2">Evidence Selection Mode</label>
+          <div className="inline-flex rounded-md bg-zinc-800 p-1">
+            {[
+              { value: "grouped", label: "Topics & Stocks" },
+              { value: "manual", label: "Manual Selection" },
+            ].map((mode) => (
+              <button
+                key={mode.value}
+                onClick={() => setSelectionMode(mode.value)}
+                className={`px-3 py-1.5 text-xs rounded transition-colors ${
+                  selectionMode === mode.value ? "bg-zinc-700 text-zinc-100" : "text-zinc-500 hover:text-zinc-300"
+                }`}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {selectionMode === "grouped" && (
+          <div className="mb-5">
+            <label className="text-xs text-zinc-500 block mb-2">Pick a Stock or Topic Group</label>
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {groupOptions.length === 0 && (
+                <p className="text-xs text-zinc-600 italic">No grouped evidence yet. Analyze more articles or use manual selection.</p>
+              )}
+              {groupOptions.map((group) => (
+                <button
+                  key={group.key}
+                  onClick={() => handleSelectGroup(group)}
+                  className={`w-full text-left rounded-md border p-3 transition-colors ${
+                    selectedGroupKey === group.key
+                      ? "border-blue-500/50 bg-blue-500/10"
+                      : "border-zinc-700/60 bg-zinc-800/50 hover:bg-zinc-800"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-medium text-zinc-200">{group.label}</p>
+                      <p className="text-xs text-zinc-500 mt-0.5">
+                        {group.group_kind === "ticker" ? "Stock signal" : "Topic cluster"} · {group.article_count} articles · {describeSignalDirection(group.average_score)} · {formatSignalPercent(group.average_score)} strength
+                      </p>
+                    </div>
+                    <span className={`text-xs px-2 py-0.5 rounded border ${
+                      group.average_score >= 0 ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/10" : "text-red-400 border-red-500/20 bg-red-500/10"
+                    }`}>
+                      {group.average_score >= 0 ? "Bullish" : "Bearish"}
+                    </span>
+                  </div>
+                  {group.related_tickers?.length > 0 && (
+                    <p className="text-xs text-zinc-600 mt-2">Related tickers: {group.related_tickers.join(", ")}</p>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mb-5">
           <label className="text-xs text-zinc-500 block mb-1">Focus Area <span className="text-zinc-600">(optional)</span></label>
           <input
             value={focus}
@@ -185,7 +269,7 @@ Important: Frame all language as educational research. Never claim certainty abo
                 </div>
                 <div className="min-w-0" onClick={() => toggleNews(item.id)}>
                   <p className="text-xs text-zinc-300 leading-snug line-clamp-1">{item.title}</p>
-                  <p className="text-xs text-zinc-600 mt-0.5">{item.source}</p>
+                  <p className="text-xs text-zinc-600 mt-0.5">{item.source} · {item.sentiment || "unscored"} {item.sentiment_score != null ? `(${item.sentiment_score > 0 ? "+" : ""}${Number(item.sentiment_score).toFixed(2)})` : ""}</p>
                 </div>
               </label>
             ))}

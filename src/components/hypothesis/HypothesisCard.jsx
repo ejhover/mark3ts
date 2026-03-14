@@ -55,6 +55,16 @@ export default function HypothesisCard({ hypothesis, onClick }) {
         <ConfidenceMeter level={hypothesis.confidence_level} score={hypothesis.confidence_score} />
       </div>
 
+      {hypothesis.source_group_label && (
+        <div className="mb-3 flex items-center gap-2 text-xs text-zinc-500">
+          <span className="uppercase tracking-[0.18em] text-[10px]">Focus</span>
+          <span className="text-zinc-300">{hypothesis.source_group_label}</span>
+          {hypothesis.source_group_type && (
+            <span className="text-zinc-600">· {hypothesis.source_group_type}</span>
+          )}
+        </div>
+      )}
+
       {/* Entities */}
       {hypothesis.entities_involved && hypothesis.entities_involved.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-2">
