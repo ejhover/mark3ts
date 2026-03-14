@@ -4,21 +4,6 @@ AI-powered market intelligence and paper-trading simulation platform built for e
 
 This project ingests market news, runs structured LLM analysis, extracts ticker/topic/event signals, and converts those signals into conviction-weighted paper portfolio allocations with live quote updates.
 
-No real-money trading is performed.
-
-## Why This Project Is Strong For Employers
-
-- Full-stack architecture with clear separation of frontend UX, backend orchestration, and data pipelines.
-- Practical AI integration with resilient provider fallback, schema-constrained output handling, and persisted analysis artifacts.
-- Real-world systems work: asynchronous maintenance jobs, retention and archival policies, background processing controls, and operational webhook support.
-- Product-oriented implementation with measurable user workflows from ingestion to analysis to simulation outcomes.
-
-## Product Screenshot
-
-Sample UI preview:
-
-![mark3ts product screenshot](public/sample-screenshot.svg)
-
 ## Core Features
 
 ### Completed
