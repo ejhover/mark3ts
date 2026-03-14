@@ -91,12 +91,6 @@ mark3ts/
 		api/
 			appClient.js
 			localClient.js
-	entities/
-		NewsItem
-		Portfolio
-		Hypothesis
-		WatchlistItem
-		AuditLog
 	public/
 		manifest.json
 		sample-screenshot.svg

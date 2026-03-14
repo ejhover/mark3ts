@@ -205,5 +205,4 @@ export const appClient = {
   },
 };
 
-// Backward-compat alias
-export const base44 = appClient;
+export default appClient;
