@@ -7,7 +7,7 @@ const toSnakeCase = (str) => str.replace(/([A-Z])/g, '_$1').toLowerCase();
 
 const getAppParamValue = (paramName, { defaultValue = undefined, removeFromUrl = false } = {}) => {
   if (isNode) return defaultValue;
-  const storageKey = `moneybuddy_${toSnakeCase(paramName)}`;
+  const storageKey = `mark3ts_${toSnakeCase(paramName)}`;
   const urlParams = new URLSearchParams(window.location.search);
   const searchParam = urlParams.get(paramName);
   if (removeFromUrl) {
@@ -29,7 +29,7 @@ const getAppParamValue = (paramName, { defaultValue = undefined, removeFromUrl =
 const getAppParams = () => {
   const viteEnv = globalThis?.import_meta_env || {};
   if (getAppParamValue('clear_access_token') === 'true') {
-    storage.removeItem('moneybuddy_access_token');
+    storage.removeItem('mark3ts_access_token');
     storage.removeItem('token');
   }
   return {

@@ -60,7 +60,7 @@ export default function Layout({ children, currentPageName }) {
               <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                 <Activity className="w-3 h-3 text-white" />
               </div>
-              <span className="text-sm font-semibold text-zinc-200 tracking-tight">MoneyBuddy</span>
+              <span className="text-sm font-semibold text-zinc-200 tracking-tight">mark3ts</span>
             </div>
             <span className="text-xs text-zinc-600 border border-zinc-800 px-1.5 py-0.5 rounded">Intelligence Platform</span>
           </div>

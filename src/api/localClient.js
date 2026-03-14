@@ -2,7 +2,7 @@
  * Local standalone API client — stores entities in localStorage, proxies LLM calls to the Express backend.
  */
 
-const STORAGE_PREFIX = 'moneybuddy_entity_';
+const STORAGE_PREFIX = 'mark3ts_entity_';
 const ENTITY_NAMES = ['WatchlistItem', 'NewsItem', 'Hypothesis', 'Portfolio', 'AuditLog'];
 
 function id() {
